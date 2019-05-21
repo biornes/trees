@@ -2,12 +2,13 @@
 #include <cstdlib>
 #include <cmath>
 #include <string>
+// #include <stdafx.h>
+#include <ctime>
 using namespace std;
 
 
 template<typename T, typename E> class Node;
 template<typename T, typename E> class Tree;
-// template<typename E> class AVL_tree;
 
 
 template <typename T, typename E>
@@ -140,14 +141,13 @@ public:
 
 	void addElement(T value, E key)
 	{
-		
+		cout << key << endl;
 		if (!quantity_)
 		{
+			cout << "ROOT: " <<  key << endl;
 			root_->setKey(key);
 			root_->setValue(value);
 			root_->setHeight(max(root_->getLeft()->getHeight(), root_->getRight()->getHeight()) + 1);
-			// cout << "ROOT's height: " << root_->getHeight() << endl;
-
 		}
 		else
 		{
@@ -157,166 +157,73 @@ public:
 
 	}
 
-	void recursive_add(Node<T, E>* node, T value, E key)
-	{
-		// cout << value << endl;
-		if (node->getValue() < key)
-		{
-			if (node->getRight() == 0)
-			{
-				node->setRight(new Node<T, E>(value, key));
-				node->getRight()->setParent(node);
-			}
-			else
-			{
-				recursive_add(node->getRight(), value, key);
-				
-			}
-			if (node->getRight()->getHeight() - node->getLeft()->getHeight() == 2)
-			{
-				if (key > node->getRight()->getKey())
-				{
-					// if (node->getKey() == 3)
-					// 	cout << "ERROR ZONE: " << node->getKey() << endl;
-					node = LR(node);
-					// cout << node->getValue() << endl;
-					// cout << 
 
-				}
-				else
-					node = BLR(node);
-			}
 
-		}
-		else
-		{
-			if (node->getLeft() == 0)
-			{
-				node->setLeft(new Node<T, E>(value, key));
-				node->getLeft()->setParent(node);
-			}
-			else
-			{
-				 recursive_add(node->getLeft(),value, key);
-			}
-			if (node->getLeft()->getHeight() - node->getRight()->getHeight() == 2)
-			{
 
-				if (key < node->getLeft()->getKey())
-				{
-					Node<T, E>* t_node = RR(node);
-					// node-
-				}
-				else
-				{
-					node = BRR(node);
-				}
-
-			}
-		}
-		
-		// cout << node->getLeft()->getHeight() << endl;
-		node->setHeight(max(node->getLeft()->getHeight(), node->getRight()->getHeight()) + 1);
-
-	}
-
-	Node<T, E>* LR(Node<T, E>* node)
-	{
-
-		Node<T, E>* temp = node->getRight();
-        node->setRight(temp->getLeft());
-		temp->setLeft(node);
-
-		setupParent(node, temp);
-		// if (node->getParent()->getLeft()->getValue() == node->getValue())
-		// 	node->getParent()->setLeft(temp);
-		// else
-		// 	node->getParent()->setRight(temp);
-		// temp->setParent(node->getParent());
-		// node->setParent(temp);
-		node->setHeight(max(node->getLeft()->getHeight(), node->getRight()->getHeight())+1);
-		temp->setHeight(max(node->getRight()->getHeight(), node->getHeight())+1);
-		// if (node->getValue() == 3)
-		// {
-		// 	cout << "NEW NODE: " << temp->getValue() << endl;
-		// }
-		return temp;
-	}
-
-	void checkRoot(Node<T, E>* node)
-	{
-		if (node->getParent() == root_)
-		{
-			root_ = node;
-		}
-	}
-
-	Node<T, E>* RR(Node<T, E>* node)
-	{
-		Node<T, E>* temp = node->getLeft();
-        node->setLeft(temp->getRight());
-		temp->setRight(node);
-
-		setupParent(node, temp);
-		// if (node->getParent()->getLeft()->getValue() == node->getValue())
-		// 	node->getParent()->setLeft(temp);
-		// else
-		// 	node->getParent()->setRight(temp);
-
-		// temp->setParent(node->getParent());
-		// node->setParent(temp);
-		node->setHeight(max(node->getLeft()->getHeight(), node->getRight()->getHeight())+1);
-		temp->setHeight(max(temp->getLeft()->getHeight(), node->getHeight())+1);
-		return temp;
-	}
-
-	Node<T, E>* BLR(Node<T, E>* node)
-	{
-		node->setRight(RR(node->getRight()));
-		return LR(node);
-	}
-
-	Node<T, E>* BRR(Node<T, E>* node)
-	{
-		node->setLeft(LR(node->getLeft()));
-		return RR(node);
-	}
-
-	void setupParent(Node<T, E>* node, Node<T, E>* temp)
-	{
-		if (node->getParent()->getLeft()->getValue() == node->getValue())
-			node->getParent()->setLeft(temp);
-		else
-			node->getParent()->setRight(temp);
-
-		temp->setParent(node->getParent());
-		node->setParent(temp);
-	}
 
 	void printTree()
 	{
-		cout << root_->getValue() << " " << root_->getHeight() << endl;
-		// cout << root_->getDiff() << endl;
+		cout << root_->getValue() << " " << root_->getHeight() << " " << root_->getKey() << endl;
 		recPrint(root_);
 	}
 
-	void recPrint(Node<T, E>* temp)
-	{
-		if (temp->getLeft()){
-			cout << temp->getLeft()->getValue() << " " << temp->getLeft()->getHeight() << endl;
-			recPrint(temp->getLeft());
-		}
-		if (temp->getRight()){
-			cout << temp->getRight()->getValue()<< " " << temp->getRight()->getHeight() << endl;
-			recPrint(temp->getRight());
-		}
-	}
+
 
 	T find(const E& key)
 	{
 		return recFind(root_, key);
 	}
 
+
+	bool empty()
+	{
+		return quantity_ ? false : true;
+	}
+
+	void clearAll()
+	{
+		recClear(root_);
+		quantity_ = 0;
+		delete root_;
+	}
+	void test()
+	{
+		// Tree<int, int> temp;
+		srand(time(0));
+		for (int i = 0; i < 10; ++i)
+		{	
+			// cout << "ERROR here" << endl;
+			(*this).addElement(0, rand());
+			// this->printTree();
+			// cout << i << endl;
+		}
+		cout << "Height: " << root_->getHeight() << endl;
+		cout << (*this).empty() << endl;
+		cout << (*this).quantity_ << endl;
+	}
+
+
+	const int& max(const int& a, const int& b)
+	{
+	    return (a < b) ? b : a;
+	}
+
+private:
+	Node<T, E> *root_;
+	uint32_t quantity_ = 0;
+	void recClear(Node<T, E>* node)
+	{
+		if (node->getLeft())
+		{
+			recClear(node->getLeft());
+			delete node;
+		}
+		if (node->getRight())
+		{
+			recClear(node->getRight());
+			delete node;
+		}
+	}
 	T recFind(Node<T, E>* node, const E& key)
 	{
 		if (!node->getLeft() and !node->getRight())
@@ -334,42 +241,181 @@ public:
 				return recFind(node->getLeft(), key);
 		}
 	}
-
-	bool empty()
+	void recPrint(Node<T, E>* temp)
 	{
-		return quantity_ ? false : true;
-	}
-
-	void clearAll()
-	{
-		recClear(root_);
-		quantity_ = 0;
-		delete root_;
-	}
-
-	void recClear(Node<T, E>* node)
-	{
-		if (node->getLeft())
-		{
-			recClear(node->getLeft());
-			delete node;
+		if (temp->getLeft()){
+			// cout << "left: " << endl;
+			cout << temp->getLeft()->getValue() << " " << temp->getLeft()->getHeight() << " " << 
+							temp->getLeft()->getKey() << endl;
+			recPrint(temp->getLeft());
 		}
-		if (node->getRight())
-		{
-			recClear(node->getRight());
-			delete node;
+		if (temp->getRight()){
+			// cout << "right: " << endl;
+			cout << temp->getRight()->getValue()<< " " << temp->getRight()->getHeight() << " " <<
+							temp->getRight()->getKey() << endl;
+			recPrint(temp->getRight());
 		}
 	}
-
-	const int& max(const int& a, const int& b)
+	void setupParent(Node<T, E>* node, Node<T, E>* temp)
 	{
-	    return (a < b) ? b : a;
+
+		// cout << "HERE" << endl;
+		if (node->getParent()->getLeft())
+		{
+			if (node->getParent()->getLeft()->getKey() == node->getKey()){
+			// cout << "HERE" << endl;
+			node->getParent()->setLeft(temp);
+		}
+		else if (node->getParent()->getRight())
+		{
+			if (node->getParent()->getLeft()->getKey() == node->getKey()){
+			// cout << "HERE" << endl;
+			node->getParent()->setLeft(temp);
+		}
+		}
+		}
+		// if (node->getParent()->getLeft()->getKey() == node->getKey()){
+		// 	cout << "HERE" << endl;
+		// 	node->getParent()->setLeft(temp);
+		// }
+		// // cout << "2 step " << endl;
+		// else if (node->getParent()->getRight()->getKey() == node->getKey()){
+		// 	cout << "HERE" << endl;
+		// 	node->getParent()->setRight(temp);
+		// }
+		// cout << "HERE" << endl;
+		temp->setParent(node->getParent());
+		node->setParent(temp);
+	}
+	void recursive_add(Node<T, E>* node, T value, E key)
+	{
+		// cout << value << endl;
+		if (node->getKey() < key)
+		{
+			if (node->getRight() == 0)
+			{
+				node->setRight(new Node<T, E>(value, key));
+				node->getRight()->setParent(node);
+			}
+			else
+			{
+				recursive_add(node->getRight(), value, key);
+				
+			}
+			if (node->getRight()->getHeight() - node->getLeft()->getHeight() == 2)
+			{
+				if (key > node->getRight()->getKey())
+				{
+					// if (node->getKey() == 3)
+					// 	cout << "ERROR ZONE: " << node->getKey() << endl;
+					// cout << "CASE 1" << endl;
+					node = LR(node);
+					// cout << node->getValue() << endl;
+					// cout << 
+
+				}
+				else
+				{
+					// cout << "CASE 2" << endl;
+					// printTree();
+					node = BLR(node);
+
+				}
+			}
+
+		}
+		else if (node->getKey() > key)
+		{
+			if (node->getLeft() == 0)
+			{
+				node->setLeft(new Node<T, E>(value, key));
+				node->getLeft()->setParent(node);
+			}
+			else
+			{
+				 recursive_add(node->getLeft(),value, key);
+			}
+			if (node->getLeft()->getHeight() - node->getRight()->getHeight() == 2)
+			{
+
+				if (key < node->getLeft()->getKey())
+				{
+					// cout << "CASE 3" << endl;
+					// Node<T, E>* t_node = RR(node);
+					node = RR(node);
+					// node-
+				}
+				else
+				{
+					
+					node = BRR(node);
+					// cout << "CASE 4" << endl;
+				}
+
+			}
+		}
+		// cout << "CASE 5" << endl;
+		node->setHeight(max(node->getLeft()->getHeight(), node->getRight()->getHeight()) + 1);
+
 	}
 
-private:
-	Node<T, E> *root_;
-	uint32_t quantity_ = 0;
+	Node<T, E>* LR(Node<T, E>* node)
+	{
 
+		Node<T, E>* temp = node->getRight();
+		// cout << temp->getLeft()->getValue();
+        node->setRight(temp->getLeft());
+        
+		temp->setLeft(node);
+		node->setParent(temp);
+		setupParent(node, temp);
+		// cout << "case 5" << endl;
+		node->setHeight(max(node->getLeft()->getHeight(), node->getRight()->getHeight())+1);
+		temp->setHeight(max(node->getRight()->getHeight(), node->getHeight())+1);
+		return temp;
+	}
+
+
+	Node<T, E>* RR(Node<T, E>* node)
+	{
+		Node<T, E>* temp = node->getLeft();
+		// cout << node->getLeft() << endl;
+		// if (temp->getLeft() == nullptr )
+			// cout << temp->getLeft() << endl;
+		
+		
+
+        node->setLeft(temp->getRight());
+
+		temp->setRight(node);
+		// cout << "RR" << endl;
+		// cout << "RR" << endl;
+		// printTree();
+		node->setParent(temp);
+		// cout << "RR" << endl;
+		setupParent(node, temp);
+		
+		node->setHeight(max(node->getLeft()->getHeight(), node->getRight()->getHeight())+1);
+
+		temp->setHeight(max(temp->getLeft()->getHeight(), node->getHeight())+1);
+		return temp;
+	}
+
+	Node<T, E>* BLR(Node<T, E>* node)
+	{
+		node->setRight(RR(node->getRight()));
+		// cout << "case 6" << endl;
+		return LR(node);
+	}
+
+	Node<T, E>* BRR(Node<T, E>* node)
+	{
+		// cout << "CASE 4" << endl;
+		// cout << node->getLeft()->getValue() << endl;
+		node->setLeft(LR(node->getLeft()));
+
+		return RR(node);
+	}
 
 
 };

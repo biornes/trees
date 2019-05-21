@@ -260,19 +260,33 @@ private:
 	{
 
 		// cout << "HERE" << endl;
-		if (node->getParent()->getLeft())
+		if (node->getParent()){
+			// cout << "here" << endl;
+			if (node->getParent()->getLeft())
+			{
+				// cout << node->getParent()->getLeft()->getKey() << "KEY" << endl;
+				if (node->getParent()->getLeft()->getKey() == node->getKey())
+				{
+				// cout << "case 1" << endl;
+					node->getParent()->setLeft(temp);
+				}
+			}
+			if (node->getParent()->getRight())
+			{
+				if (node->getParent()->getRight()->getKey() == node->getKey())
+				{
+				// cout << "case 2" << endl;
+					node->getParent()->setRight(temp);
+				}
+			}
+			temp->setParent(node->getParent());
+			node->setParent(temp);
+		}
+		else
 		{
-			if (node->getParent()->getLeft()->getKey() == node->getKey()){
-			// cout << "HERE" << endl;
-			node->getParent()->setLeft(temp);
-		}
-		else if (node->getParent()->getRight())
-		{
-			if (node->getParent()->getLeft()->getKey() == node->getKey()){
-			// cout << "HERE" << endl;
-			node->getParent()->setLeft(temp);
-		}
-		}
+			root_ = temp;
+			cout << "something" << endl;
+			node->setParent(temp);
 		}
 		// if (node->getParent()->getLeft()->getKey() == node->getKey()){
 		// 	cout << "HERE" << endl;
@@ -284,8 +298,7 @@ private:
 		// 	node->getParent()->setRight(temp);
 		// }
 		// cout << "HERE" << endl;
-		temp->setParent(node->getParent());
-		node->setParent(temp);
+		
 	}
 	void recursive_add(Node<T, E>* node, T value, E key)
 	{
@@ -365,9 +378,9 @@ private:
 		Node<T, E>* temp = node->getRight();
 		// cout << temp->getLeft()->getValue();
         node->setRight(temp->getLeft());
-        
+        cout << "LR" << endl;
 		temp->setLeft(node);
-		node->setParent(temp);
+		// node->setParent(temp);
 		setupParent(node, temp);
 		// cout << "case 5" << endl;
 		node->setHeight(max(node->getLeft()->getHeight(), node->getRight()->getHeight())+1);
@@ -391,7 +404,7 @@ private:
 		// cout << "RR" << endl;
 		// cout << "RR" << endl;
 		// printTree();
-		node->setParent(temp);
+		// node->setParent(temp);
 		// cout << "RR" << endl;
 		setupParent(node, temp);
 		

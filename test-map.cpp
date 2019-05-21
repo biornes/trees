@@ -6,7 +6,7 @@ int main()
 	// obj.addElement(10, 10);
 	// obj.addElement(12, 12);
 	// obj.addElement(11, 11);
-
+	// obj.addElement(2, 2);
 	// obj.addElement(12, 12);
 	// obj.addElement(11, 11);
 	// obj.addElement(14, 14);
@@ -14,7 +14,7 @@ int main()
 	// obj.addElement(3, 3);	
 	// obj.addElement(4, 4);
 	// obj.addElement(7, 7);
-	// // cout << "TEST APPENDING ELEMENT AND PRINTING INTERFACE: \n";
+	// cout << "TEST APPENDING ELEMENT AND PRINTING INTERFACE: \n";
 	// obj.printTree();
 	// cout << "COPY CONSTRUCTOR: \n";
 	// Tree<int, int> obj1(obj);

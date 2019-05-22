@@ -2,18 +2,47 @@
 
 int main()
 {
-	// Tree<int, int> obj;
+	Tree<int, int> obj;
+	// for (int i = 0; i < 10; ++i)
+	// {
+	// 	obj.addElement(i, i);
+	// 	obj.printTree();
+	// 	cout << "*********\n";
+	// }
+	// obj.printTree();
 	// obj.addElement(10, 10);
+	// obj.printTree();
+	// cout << "*********\n";
 	// obj.addElement(12, 12);
+	// obj.printTree();
+	// cout << "*********\n";
 	// obj.addElement(11, 11);
+	// obj.printTree();
+	// cout << "*********\n";
 	// obj.addElement(2, 2);
-	// obj.addElement(12, 12);
-	// obj.addElement(11, 11);
+	// obj.printTree();
+	// cout << "*********\n";
+	// // obj.addElement(12, 12);
+	// // obj.printTree();
+	// // cout << "*********\n";
+	// // obj.addElement(11, 11);
+	// // obj.printTree();
+	// // cout << "*********\n";
 	// obj.addElement(14, 14);
+	// obj.printTree();
+	// cout << "*********\n";
 	// obj.addElement(-5, -5);
-	// obj.addElement(3, 3);	
+	// obj.printTree();
+	// cout << "*********\n";
+	// obj.addElement(3, 3);
+	// obj.printTree();
+	// cout << "*********\n";	
 	// obj.addElement(4, 4);
+	// obj.printTree();
+	// cout << "*********\n";
 	// obj.addElement(7, 7);
+	// obj.printTree();
+	// cout << "*********\n";
 	// cout << "TEST APPENDING ELEMENT AND PRINTING INTERFACE: \n";
 	// obj.printTree();
 	// cout << "COPY CONSTRUCTOR: \n";
@@ -36,7 +65,7 @@ int main()
 	// cout << "Is empty: " << obj.empty() << endl;
 	Tree<int, int> temp;
 	temp.test();
-	temp.printTree();
+	// temp.printTree();
 	cout << "QUIT" << endl;
 	return 0;
 }

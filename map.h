@@ -19,6 +19,10 @@ class Node
 
 		Node(T value, E key) : value_(value), left_(0), right_(0), parent_(0), height_(0), key_(key){}
 
+		Node(Node<T>* temp)
+		{
+			
+		}
 		Node<T, E>* getLeft()
 		{
 			return left_;
@@ -79,9 +83,10 @@ class Node
 			return this == 0 ? -1: this->height_;
 		}
 
-		Node<T, E>* operator=(Node<T, E> obj)
+		Node<T, E> operator=(Node<T, E>* obj)
 		{
-			this = obj;
+			this->left_ = obj->getLeft();
+			this = obj
 			return *this;
 		}
 
@@ -141,10 +146,10 @@ public:
 
 	void addElement(T value, E key)
 	{
-		cout << key << endl;
+		// cout << key << endl;
 		if (!quantity_)
 		{
-			cout << "ROOT: " <<  key << endl;
+			// cout << "ROOT: " <<  key << endl;
 			root_->setKey(key);
 			root_->setValue(value);
 			root_->setHeight(max(root_->getLeft()->getHeight(), root_->getRight()->getHeight()) + 1);
@@ -190,7 +195,7 @@ public:
 	{
 		// Tree<int, int> temp;
 		srand(time(0));
-		for (int i = 0; i < 10; ++i)
+		for (int i = 0; i < 10000; ++i)
 		{	
 			// cout << "ERROR here" << endl;
 			(*this).addElement(0, rand());
@@ -260,6 +265,11 @@ private:
 	{
 
 		// cout << "HERE" << endl;
+		// if (node->getKey() == 1)
+		// {
+		// 	// cout << "EXTRA CASE: ";
+		// 	// cout << node->getParent() << endl;
+		// }
 		if (node->getParent()){
 			// cout << "here" << endl;
 			if (node->getParent()->getLeft())
@@ -285,7 +295,8 @@ private:
 		else
 		{
 			root_ = temp;
-			cout << "something" << endl;
+			root_->setParent(0);
+			// cout << "something" << endl;
 			node->setParent(temp);
 		}
 		// if (node->getParent()->getLeft()->getKey() == node->getKey()){
@@ -319,6 +330,7 @@ private:
 			{
 				if (key > node->getRight()->getKey())
 				{
+					// cout << "CASE FOR 5!" << endl;
 					// if (node->getKey() == 3)
 					// 	cout << "ERROR ZONE: " << node->getKey() << endl;
 					// cout << "CASE 1" << endl;
@@ -378,7 +390,7 @@ private:
 		Node<T, E>* temp = node->getRight();
 		// cout << temp->getLeft()->getValue();
         node->setRight(temp->getLeft());
-        cout << "LR" << endl;
+        // cout << "LR" << endl;
 		temp->setLeft(node);
 		// node->setParent(temp);
 		setupParent(node, temp);

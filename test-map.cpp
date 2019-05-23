@@ -3,13 +3,13 @@
 int main()
 {
 	Tree<int, int> obj;
-	// for (int i = 0; i < 10; ++i)
-	// {
-	// 	obj.addElement(i, i);
-	// 	obj.printTree();
-	// 	cout << "*********\n";
-	// }
-	// obj.printTree();
+	for (int i = 0; i < 10; ++i)
+	{
+		obj.addElement(i, i);
+		// obj.printTree();
+		// cout << "*********\n";
+	}
+	obj.printTree();
 	// obj.addElement(10, 10);
 	// obj.printTree();
 	// cout << "*********\n";
@@ -45,11 +45,11 @@ int main()
 	// cout << "*********\n";
 	// cout << "TEST APPENDING ELEMENT AND PRINTING INTERFACE: \n";
 	// obj.printTree();
-	// cout << "COPY CONSTRUCTOR: \n";
-	// Tree<int, int> obj1(obj);
+	cout << "COPY CONSTRUCTOR: \n";
+	Tree<int, int> obj1(obj);
+	obj.clearAll();
 
-
-	// obj1.printTree();
+	obj1.printTree();
 	// cout << "COPY OPERATOR= \n";
 	// Tree<int, int> obj2(obj);
 	// obj2.printTree();
@@ -63,8 +63,8 @@ int main()
 	// cout << "TEST CLEARING: \n";
 	// obj.clearAll();
 	// cout << "Is empty: " << obj.empty() << endl;
-	Tree<int, int> temp;
-	temp.test();
+	// Tree<int, int> temp;
+	// temp.test();
 	// temp.printTree();
 	cout << "QUIT" << endl;
 	return 0;

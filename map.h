@@ -2,7 +2,6 @@
 #include <cstdlib>
 #include <cmath>
 #include <string>
-// #include <stdafx.h>
 #include <ctime>
 using namespace std;
 
@@ -19,58 +18,72 @@ class Node
 
 		Node(T value, E key) : value_(value), left_(0), right_(0), parent_(0), height_(0), key_(key){}
 
-		Node(Node<T>* temp)
+		Node(Node<T, E>* temp)
 		{
-			
+			this->value_ = (temp->getValue());
+			this->key_ = temp->getKey();
+			this->height_ = (temp->getHeight());
+
+			if (temp->getLeft())
+			{
+				this->left_ = new Node<T, E>((temp->getLeft()));
+				this->left_->setParent(this);
+			}
+			if (temp->getRight())
+			{
+				this->right_ = new Node<T, E>((temp->getRight()));
+				this->right_->setParent(this);
+			}
 		}
-		Node<T, E>* getLeft()
+
+		Node<T, E>* getLeft() const
 		{
 			return left_;
 		}
 
-		Node<T, E>* getRight()
+		Node<T, E>* getRight() const
 		{
 			return right_;
 		}
 
 		void setLeft(Node<T, E>* new_node)
 		{
-			left_ = new_node;
+			this->left_ = new_node;
 		}
 
 		void setRight(Node<T, E>* new_node)
 		{
-			right_ = new_node;
+			this->right_ = new_node;
 		}
 
 		void setValue(T temp)
 		{
-			value_ = temp;
+			this->value_ = temp;
 		}
 
-		const T& getValue()
+		const T& getValue() const
 		{
 			return value_;
 		}
 
-		Node<T, E>* getParent()
+		Node<T, E>* getParent() const
 		{
 			return parent_;
 		}
 
 		void setParent(Node<T, E>* node)
 		{
-			parent_ = node;
+			this->parent_ = node;
 		}
 
-		const E& getKey()
+		const E& getKey() const
 		{
 			return key_;
 		}
 
 		void setKey(const E& key)
 		{
-			key_ = key;
+			this->key_ = key;
 		}
 
 		void setHeight(int h)
@@ -78,15 +91,14 @@ class Node
 			this->height_ = h;
 		}
 
-		int getHeight()
+		int getHeight() const
 		{
 			return this == 0 ? -1: this->height_;
 		}
 
 		Node<T, E> operator=(Node<T, E>* obj)
 		{
-			this->left_ = obj->getLeft();
-			this = obj
+			this = obj;
 			return *this;
 		}
 
@@ -117,10 +129,10 @@ public:
 		++quantity_;
 	}
 
-	Tree(Tree<T, E>* cp)
+	Tree(const Tree<T, E>& cp)
 	{
-		root_ = new Node<T, E>;
-		root_ = cp->getRoot();
+		root_ = new Node<T, E>(cp.getRoot());
+		root_->setParent(nullptr);
 	}
 
 	~Tree()
@@ -139,17 +151,15 @@ public:
 			return find(key);
 	}
 
-	Node<T, E>& getRoot() const 
+	Node<T, E>* getRoot() const 
 	{
-		return *root_;
+		return root_;
 	}
 
 	void addElement(T value, E key)
 	{
-		// cout << key << endl;
 		if (!quantity_)
 		{
-			// cout << "ROOT: " <<  key << endl;
 			root_->setKey(key);
 			root_->setValue(value);
 			root_->setHeight(max(root_->getLeft()->getHeight(), root_->getRight()->getHeight()) + 1);
@@ -193,14 +203,10 @@ public:
 	}
 	void test()
 	{
-		// Tree<int, int> temp;
 		srand(time(0));
 		for (int i = 0; i < 10000; ++i)
 		{	
-			// cout << "ERROR here" << endl;
 			(*this).addElement(0, rand());
-			// this->printTree();
-			// cout << i << endl;
 		}
 		cout << "Height: " << root_->getHeight() << endl;
 		cout << (*this).empty() << endl;
@@ -249,13 +255,11 @@ private:
 	void recPrint(Node<T, E>* temp)
 	{
 		if (temp->getLeft()){
-			// cout << "left: " << endl;
 			cout << temp->getLeft()->getValue() << " " << temp->getLeft()->getHeight() << " " << 
 							temp->getLeft()->getKey() << endl;
 			recPrint(temp->getLeft());
 		}
 		if (temp->getRight()){
-			// cout << "right: " << endl;
 			cout << temp->getRight()->getValue()<< " " << temp->getRight()->getHeight() << " " <<
 							temp->getRight()->getKey() << endl;
 			recPrint(temp->getRight());
@@ -263,21 +267,11 @@ private:
 	}
 	void setupParent(Node<T, E>* node, Node<T, E>* temp)
 	{
-
-		// cout << "HERE" << endl;
-		// if (node->getKey() == 1)
-		// {
-		// 	// cout << "EXTRA CASE: ";
-		// 	// cout << node->getParent() << endl;
-		// }
 		if (node->getParent()){
-			// cout << "here" << endl;
 			if (node->getParent()->getLeft())
 			{
-				// cout << node->getParent()->getLeft()->getKey() << "KEY" << endl;
 				if (node->getParent()->getLeft()->getKey() == node->getKey())
 				{
-				// cout << "case 1" << endl;
 					node->getParent()->setLeft(temp);
 				}
 			}
@@ -285,7 +279,6 @@ private:
 			{
 				if (node->getParent()->getRight()->getKey() == node->getKey())
 				{
-				// cout << "case 2" << endl;
 					node->getParent()->setRight(temp);
 				}
 			}
@@ -296,24 +289,12 @@ private:
 		{
 			root_ = temp;
 			root_->setParent(0);
-			// cout << "something" << endl;
 			node->setParent(temp);
 		}
-		// if (node->getParent()->getLeft()->getKey() == node->getKey()){
-		// 	cout << "HERE" << endl;
-		// 	node->getParent()->setLeft(temp);
-		// }
-		// // cout << "2 step " << endl;
-		// else if (node->getParent()->getRight()->getKey() == node->getKey()){
-		// 	cout << "HERE" << endl;
-		// 	node->getParent()->setRight(temp);
-		// }
-		// cout << "HERE" << endl;
-		
 	}
+
 	void recursive_add(Node<T, E>* node, T value, E key)
 	{
-		// cout << value << endl;
 		if (node->getKey() < key)
 		{
 			if (node->getRight() == 0)
@@ -330,21 +311,11 @@ private:
 			{
 				if (key > node->getRight()->getKey())
 				{
-					// cout << "CASE FOR 5!" << endl;
-					// if (node->getKey() == 3)
-					// 	cout << "ERROR ZONE: " << node->getKey() << endl;
-					// cout << "CASE 1" << endl;
 					node = LR(node);
-					// cout << node->getValue() << endl;
-					// cout << 
-
 				}
 				else
 				{
-					// cout << "CASE 2" << endl;
-					// printTree();
 					node = BLR(node);
-
 				}
 			}
 
@@ -365,21 +336,15 @@ private:
 
 				if (key < node->getLeft()->getKey())
 				{
-					// cout << "CASE 3" << endl;
-					// Node<T, E>* t_node = RR(node);
 					node = RR(node);
-					// node-
 				}
 				else
 				{
-					
 					node = BRR(node);
-					// cout << "CASE 4" << endl;
 				}
 
 			}
 		}
-		// cout << "CASE 5" << endl;
 		node->setHeight(max(node->getLeft()->getHeight(), node->getRight()->getHeight()) + 1);
 
 	}
@@ -388,13 +353,9 @@ private:
 	{
 
 		Node<T, E>* temp = node->getRight();
-		// cout << temp->getLeft()->getValue();
         node->setRight(temp->getLeft());
-        // cout << "LR" << endl;
 		temp->setLeft(node);
-		// node->setParent(temp);
 		setupParent(node, temp);
-		// cout << "case 5" << endl;
 		node->setHeight(max(node->getLeft()->getHeight(), node->getRight()->getHeight())+1);
 		temp->setHeight(max(node->getRight()->getHeight(), node->getHeight())+1);
 		return temp;
@@ -404,24 +365,10 @@ private:
 	Node<T, E>* RR(Node<T, E>* node)
 	{
 		Node<T, E>* temp = node->getLeft();
-		// cout << node->getLeft() << endl;
-		// if (temp->getLeft() == nullptr )
-			// cout << temp->getLeft() << endl;
-		
-		
-
         node->setLeft(temp->getRight());
-
 		temp->setRight(node);
-		// cout << "RR" << endl;
-		// cout << "RR" << endl;
-		// printTree();
-		// node->setParent(temp);
-		// cout << "RR" << endl;
 		setupParent(node, temp);
-		
 		node->setHeight(max(node->getLeft()->getHeight(), node->getRight()->getHeight())+1);
-
 		temp->setHeight(max(temp->getLeft()->getHeight(), node->getHeight())+1);
 		return temp;
 	}
@@ -429,16 +376,12 @@ private:
 	Node<T, E>* BLR(Node<T, E>* node)
 	{
 		node->setRight(RR(node->getRight()));
-		// cout << "case 6" << endl;
 		return LR(node);
 	}
 
 	Node<T, E>* BRR(Node<T, E>* node)
 	{
-		// cout << "CASE 4" << endl;
-		// cout << node->getLeft()->getValue() << endl;
 		node->setLeft(LR(node->getLeft()));
-
 		return RR(node);
 	}
 

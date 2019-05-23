@@ -48,7 +48,6 @@ int main()
 	cout << "COPY CONSTRUCTOR: \n";
 	Tree<int, int> obj1(obj);
 	obj.clearAll();
-
 	obj1.printTree();
 	// cout << "COPY OPERATOR= \n";
 	// Tree<int, int> obj2(obj);
@@ -63,9 +62,9 @@ int main()
 	// cout << "TEST CLEARING: \n";
 	// obj.clearAll();
 	// cout << "Is empty: " << obj.empty() << endl;
-	// Tree<int, int> temp;
-	// temp.test();
-	// temp.printTree();
+	Tree<int, int> temp;
+	temp.test();
+	temp.printTree();
 	cout << "QUIT" << endl;
 	return 0;
 }

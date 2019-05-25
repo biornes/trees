@@ -208,9 +208,13 @@ public:
 		{	
 			(*this).addElement(0, rand());
 		}
+		if (root_->getHeight() < 1.45*log2((*this).quantity_))
+		{
+			cout << "AVL-tree properties are executed\n";
+		}
 		cout << "Height: " << root_->getHeight() << endl;
-		cout << (*this).empty() << endl;
-		cout << (*this).quantity_ << endl;
+		// cout << (*this).empty() << endl;
+		// cout << (*this).quantity_ << endl;
 	}
 
 

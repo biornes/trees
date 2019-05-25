@@ -64,7 +64,7 @@ int main()
 	// cout << "Is empty: " << obj.empty() << endl;
 	Tree<int, int> temp;
 	temp.test();
-	temp.printTree();
+	// temp.printTree();
 	cout << "QUIT" << endl;
 	return 0;
 }
